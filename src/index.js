@@ -1,73 +1,77 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const API_URL = "https://api.thedogapi.com/v1/breeds";
-  const dogsContainer = document.getElementById("dogsContainer");
-  const searchInput = document.getElementById("searchInput");
-  const favoritesList = document.getElementById("favoritesList");
-  const themeToggle = document.getElementById("themeToggle");
+  const dogList = document.getElementById("dog-list");
+  const favorites = document.getElementById("favorites");
+  const searchInput = document.getElementById("search");
 
-  let allDogs = [];
+  let dogs = [];
 
-  // Toggle light/dark theme
-  themeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    themeToggle.textContent = document.body.classList.contains("dark-mode")
-      ? "☀️ Light Mode"
-      : "🌙 Dark Mode";
-  });
-
-  // Load dogs from API
-  fetch(API_URL)
-    .then((res) => res.json())
-    .then((dogs) => {
-      allDogs = dogs;
-      displayDogs(dogs);
-    })
-    .catch((err) => {
-      dogsContainer.innerHTML = `<p class="error">⚠️ Failed to load dogs. Check your internet and try again.</p>`;
-      console.error("Fetch error:", err);
+  // Fetch random dog images
+  fetch("https://dog.ceo/api/breeds/image/random/10")
+    .then(res => res.json())
+    .then(data => {
+      dogs = data.message.map(url => {
+        // Extract breed from URL
+        const parts = url.split("/");
+        const breed = parts[parts.indexOf("breeds") + 1];
+        return { url, breed };
+      });
+      renderDogs(dogs);
     });
 
-  function displayDogs(dogs) {
-    dogsContainer.innerHTML = ""; // Clear previous
-    dogs.forEach((dog) => {
+  // Render dogs
+  function renderDogs(dogArray) {
+    dogList.innerHTML = "";
+    dogArray.forEach(dog => {
       const card = document.createElement("div");
-      card.classList.add("dog-card");
+      card.className = "dog-card";
 
-      card.innerHTML = `
-        <img src="${dog.image?.url || 'https://placedog.net/500'}" alt="${dog.name}" />
-        <h3>${dog.name}</h3>
-        <p>Group: ${dog.breed_group || "Unknown"}</p>
-        <button>Add to Favorites</button>
-      `;
+      const img = document.createElement("img");
+      img.src = dog.url;
 
-      const button = card.querySelector("button");
-      button.addEventListener("click", () => addToFavorites(dog.name, button));
+      const breedName = document.createElement("p");
+      breedName.textContent = `Breed: ${dog.breed}`;
 
-      dogsContainer.appendChild(card);
+      const adoptBtn = document.createElement("button");
+      adoptBtn.textContent = "Adopt ❤️";
+      adoptBtn.addEventListener("click", () => adoptDog(dog));
+
+      card.appendChild(img);
+      card.appendChild(breedName);
+      card.appendChild(adoptBtn);
+
+      dogList.appendChild(card);
     });
   }
 
-  function addToFavorites(dogName, button) {
-    const li = document.createElement("li");
-    li.textContent = dogName;
+  // Adopt dog
+  function adoptDog(dog) {
+    const favCard = document.createElement("div");
+    favCard.className = "dog-card";
+
+    const img = document.createElement("img");
+    img.src = dog.url;
+
+    const breedName = document.createElement("p");
+    breedName.textContent = `Breed: ${dog.breed}`;
 
     const removeBtn = document.createElement("button");
-    removeBtn.textContent = "❌";
-    removeBtn.addEventListener("click", () => li.remove());
+    removeBtn.textContent = "Remove 🗑️";
+    removeBtn.addEventListener("click", () => favCard.remove());
 
-    li.appendChild(removeBtn);
-    favoritesList.appendChild(li);
+    favCard.appendChild(img);
+    favCard.appendChild(breedName);
+    favCard.appendChild(removeBtn);
 
-    button.disabled = true;
-    button.textContent = "✅ Added";
+    favorites.appendChild(favCard);
   }
 
-  // Live search filter
+  // Search/filter
   searchInput.addEventListener("input", (e) => {
-    const query = e.target.value.toLowerCase();
-    const filteredDogs = allDogs.filter((dog) =>
-      dog.name.toLowerCase().includes(query)
+    const term = e.target.value.toLowerCase();
+    const filtered = dogs.filter(dog =>
+      dog.breed.toLowerCase().includes(term)
     );
-    displayDogs(filteredDogs);
+    renderDogs(filtered);
   });
 });
+
