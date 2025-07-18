@@ -3,21 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dog Adoption SPA</title>
-  <link rel="stylesheet" href="style.css"/>
+  <title>🐾 Adopt A Pup</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>🐶 Dog Adoption Center</h1>
+  <header>
+    <h1>🐶 Adopt A Pup</h1>
+    <p>Find your forever furry friend 💕</p>
+    <button id="themeToggle">🌙 Toggle Dark Mode</button>
+  </header>
 
-  <!-- Search/filter -->
-  <input type="text" id="search" placeholder="Search by breed..." />
+  <main>
+    <section class="search-section">
+      <input type="text" id="searchInput" placeholder="🔍 Search by breed..." />
+    </section>
 
-  <!-- Dog list -->
-  <section id="dog-list"></section>
+    <div id="spinner" class="spinner hidden"></div>
 
-  <h2>❤️ Adopted Dogs</h2>
-  <section id="favorites"></section>
+    <section class="dogs-container" id="dogsContainer"></section>
 
-  <script src="./src/index.js"></script>
+    <section class="favorites-section">
+      <h2>💖 Your Favorites</h2>
+      <ul id="favoritesList"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>Made with 🐾 by Gidion Ondari</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
