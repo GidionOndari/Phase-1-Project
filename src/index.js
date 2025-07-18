@@ -1,56 +1,55 @@
 document.addEventListener("DOMContentLoaded", () => {
   const API_URL = "https://api.thedogapi.com/v1/breeds";
   const dogsContainer = document.getElementById("dogsContainer");
-  const favoritesList = document.getElementById("favoritesList");
   const searchInput = document.getElementById("searchInput");
-  const spinner = document.getElementById("spinner");
+  const favoritesList = document.getElementById("favoritesList");
   const themeToggle = document.getElementById("themeToggle");
 
-  let dogsData = [];
+  let allDogs = [];
 
-  // Toggle light/dark mode
+  // Toggle light/dark theme
   themeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
-    themeToggle.textContent =
-      document.body.classList.contains("dark") ? "☀️ Light Mode" : "🌙 Dark Mode";
+    document.body.classList.toggle("dark-mode");
+    themeToggle.textContent = document.body.classList.contains("dark-mode")
+      ? "☀️ Light Mode"
+      : "🌙 Dark Mode";
   });
 
-  function showSpinner() {
-    spinner.classList.remove("hidden");
-  }
-
-  function hideSpinner() {
-    spinner.classList.add("hidden");
-  }
+  // Load dogs from API
+  fetch(API_URL)
+    .then((res) => res.json())
+    .then((dogs) => {
+      allDogs = dogs;
+      displayDogs(dogs);
+    })
+    .catch((err) => {
+      dogsContainer.innerHTML = `<p class="error">⚠️ Failed to load dogs. Check your internet and try again.</p>`;
+      console.error("Fetch error:", err);
+    });
 
   function displayDogs(dogs) {
-    dogsContainer.innerHTML = "";
-
-    dogs.forEach(dog => {
+    dogsContainer.innerHTML = ""; // Clear previous
+    dogs.forEach((dog) => {
       const card = document.createElement("div");
-      card.className = "card";
+      card.classList.add("dog-card");
 
       card.innerHTML = `
-        <img src="${dog.image?.url || 'https://placedog.net/400'}" alt="${dog.name}">
+        <img src="${dog.image?.url || 'https://placedog.net/500'}" alt="${dog.name}" />
         <h3>${dog.name}</h3>
-        <p><strong>Group:</strong> ${dog.breed_group || "N/A"}</p>
-        <button>Add 💖</button>
+        <p>Group: ${dog.breed_group || "Unknown"}</p>
+        <button>Add to Favorites</button>
       `;
 
       const button = card.querySelector("button");
-      button.addEventListener("click", () => {
-        button.textContent = "Added! ✅";
-        button.disabled = true;
-        addToFavorites(dog.name);
-      });
+      button.addEventListener("click", () => addToFavorites(dog.name, button));
 
       dogsContainer.appendChild(card);
     });
   }
 
-  function addToFavorites(name) {
+  function addToFavorites(dogName, button) {
     const li = document.createElement("li");
-    li.textContent = name;
+    li.textContent = dogName;
 
     const removeBtn = document.createElement("button");
     removeBtn.textContent = "❌";
@@ -58,21 +57,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     li.appendChild(removeBtn);
     favoritesList.appendChild(li);
+
+    button.disabled = true;
+    button.textContent = "✅ Added";
   }
 
+  // Live search filter
   searchInput.addEventListener("input", (e) => {
-    const value = e.target.value.toLowerCase();
-    const filtered = dogsData.filter(dog => dog.name.toLowerCase().includes(value));
-    displayDogs(filtered);
+    const query = e.target.value.toLowerCase();
+    const filteredDogs = allDogs.filter((dog) =>
+      dog.name.toLowerCase().includes(query)
+    );
+    displayDogs(filteredDogs);
   });
-
-  showSpinner();
-  fetch(API_URL)
-    .then(res => res.json())
-    .then(data => {
-      dogsData = data;
-      displayDogs(data);
-    })
-    .catch(err => console.error("Fetch error:", err))
-    .finally(() => hideSpinner());
 });
