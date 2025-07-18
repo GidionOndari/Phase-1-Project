@@ -9,31 +9,30 @@
 <body>
   <header>
     <h1 id="header-title">Bosco Dog Adoption Center</h1>
-    <form id="search-form">
-      <input type="text" id="search-input" placeholder="Search breed..." required/>
-      <button type="submit">Search</button>
-    </form>
   </header>
 
   <main>
-    <section id="dog-section">
-      <h2>Available Dogs</h2>
-      <div id="breed-list" class="dog-container"></div>
-    </section>
+    <form id="search-form">
+      <input type="text" id="search-input" placeholder="Search dog breed..." />
+      <button type="submit">Search</button>
+    </form>
 
-    <section>
-      <h2>Favorites </h2>
-      <ul id="favorites-list"></ul>
-    </section>
+    <section id="breed-list" class="dog-list"></section>
 
-    <section>
-      <h2>Adopted </h2>
-      <ul id="adopted-list"></ul>
-    </section>
+    <div class="lists">
+      <div>
+        <h2>Favorites</h2>
+        <ul id="favorites-list"></ul>
+      </div>
+      <div>
+        <h2>Adopted</h2>
+        <ul id="adopted-list"></ul>
+      </div>
+    </div>
   </main>
 
   <footer>
-    <p>© 2025 Dog Adoption SPA - All Rights Reserved.</p>
+    <p>© 2025 Gidion's Dog Adoption SPA</p>
   </footer>
 
   <script src="index.js"></script>
