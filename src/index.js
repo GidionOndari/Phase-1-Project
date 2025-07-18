@@ -1,76 +1,78 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const dogList = document.getElementById("dog-list");
-  const favorites = document.getElementById("favorites");
-  const searchInput = document.getElementById("search");
+  const API_URL = "https://api.thedogapi.com/v1/breeds";
+  const dogsContainer = document.getElementById("dogsContainer");
+  const favoritesList = document.getElementById("favoritesList");
+  const searchInput = document.getElementById("searchInput");
+  const spinner = document.getElementById("spinner");
+  const themeToggle = document.getElementById("themeToggle");
 
-  let dogs = [];
+  let dogsData = [];
 
-  // Fetch random dog images
-  fetch("https://dog.ceo/api/breeds/image/random/10")
-    .then(res => res.json())
-    .then(data => {
-      dogs = data.message.map(url => {
-        // Extract breed from URL
-        const parts = url.split("/");
-        const breed = parts[parts.indexOf("breeds") + 1];
-        return { url, breed };
-      });
-      renderDogs(dogs);
-    });
+  // Toggle light/dark mode
+  themeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+    themeToggle.textContent =
+      document.body.classList.contains("dark") ? "☀️ Light Mode" : "🌙 Dark Mode";
+  });
 
-  // Render dogs
-  function renderDogs(dogArray) {
-    dogList.innerHTML = "";
-    dogArray.forEach(dog => {
+  function showSpinner() {
+    spinner.classList.remove("hidden");
+  }
+
+  function hideSpinner() {
+    spinner.classList.add("hidden");
+  }
+
+  function displayDogs(dogs) {
+    dogsContainer.innerHTML = "";
+
+    dogs.forEach(dog => {
       const card = document.createElement("div");
-      card.className = "dog-card";
+      card.className = "card";
 
-      const img = document.createElement("img");
-      img.src = dog.url;
+      card.innerHTML = `
+        <img src="${dog.image?.url || 'https://placedog.net/400'}" alt="${dog.name}">
+        <h3>${dog.name}</h3>
+        <p><strong>Group:</strong> ${dog.breed_group || "N/A"}</p>
+        <button>Add 💖</button>
+      `;
 
-      const breedName = document.createElement("p");
-      breedName.textContent = `Breed: ${dog.breed}`;
+      const button = card.querySelector("button");
+      button.addEventListener("click", () => {
+        button.textContent = "Added! ✅";
+        button.disabled = true;
+        addToFavorites(dog.name);
+      });
 
-      const adoptBtn = document.createElement("button");
-      adoptBtn.textContent = "Adopt ❤️";
-      adoptBtn.addEventListener("click", () => adoptDog(dog));
-
-      card.appendChild(img);
-      card.appendChild(breedName);
-      card.appendChild(adoptBtn);
-
-      dogList.appendChild(card);
+      dogsContainer.appendChild(card);
     });
   }
 
-  // Adopt dog
-  function adoptDog(dog) {
-    const favCard = document.createElement("div");
-    favCard.className = "dog-card";
-
-    const img = document.createElement("img");
-    img.src = dog.url;
-
-    const breedName = document.createElement("p");
-    breedName.textContent = `Breed: ${dog.breed}`;
+  function addToFavorites(name) {
+    const li = document.createElement("li");
+    li.textContent = name;
 
     const removeBtn = document.createElement("button");
-    removeBtn.textContent = "Remove 🗑️";
-    removeBtn.addEventListener("click", () => favCard.remove());
+    removeBtn.textContent = "❌";
+    removeBtn.addEventListener("click", () => li.remove());
 
-    favCard.appendChild(img);
-    favCard.appendChild(breedName);
-    favCard.appendChild(removeBtn);
-
-    favorites.appendChild(favCard);
+    li.appendChild(removeBtn);
+    favoritesList.appendChild(li);
   }
 
-  // Search/filter
   searchInput.addEventListener("input", (e) => {
-    const term = e.target.value.toLowerCase();
-    const filtered = dogs.filter(dog =>
-      dog.breed.toLowerCase().includes(term)
-    );
-    renderDogs(filtered);
+    const value = e.target.value.toLowerCase();
+    const filtered = dogsData.filter(dog => dog.name.toLowerCase().includes(value));
+    displayDogs(filtered);
   });
+
+  showSpinner();
+  fetch(API_URL)
+    .then(res => res.json())
+    .then(data => {
+      dogsData = data;
+      displayDogs(data);
+    })
+    .catch(err => console.error("Fetch error:", err))
+    .finally(() => hideSpinner());
 });
