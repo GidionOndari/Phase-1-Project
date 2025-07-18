@@ -1,103 +1,86 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f7f7f7;
-  color: #333;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f5f5f5;
 }
 
 header {
-  background-color: #1e3a8a;
+  background: #333;
   color: white;
-  padding: 20px;
+  padding: 1rem;
   text-align: center;
-  font-size: 2rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-
-main {
-  padding: 20px;
 }
 
 #search-form {
-  text-align: center;
-  margin-bottom: 30px;
+  margin-top: 1rem;
 }
 
 #search-input {
-  padding: 10px;
-  width: 250px;
-  border: 2px solid #1e3a8a;
-  border-radius: 5px;
+  padding: 0.5rem;
+  width: 200px;
 }
 
 button {
-  padding: 10px 15px;
-  margin-left: 10px;
-  background-color: #1e3a8a;
-  color: white;
-  border: none;
-  border-radius: 5px;
+  padding: 0.5rem;
+  margin-left: 5px;
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #2563eb;
+main {
+  padding: 1rem;
+}
+
+h2 {
+  color: #333;
 }
 
 .dog-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  gap: 1rem;
 }
 
 .dog-card {
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  overflow: hidden;
-  width: 220px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 200px;
+  padding: 10px;
   text-align: center;
-  padding-bottom: 15px;
 }
 
 .dog-img {
   width: 100%;
-  height: 180px;
+  height: 150px;
   object-fit: cover;
-}
-
-.dog-name {
-  margin: 15px 0;
-  text-transform: capitalize;
-  font-size: 1.2rem;
 }
 
 .dog-buttons button {
   margin: 5px;
 }
 
-.list-section {
-  margin-top: 40px;
-  padding: 15px;
-  background: #f0f4ff;
-  border-radius: 10px;
+ul {
+  list-style-type: none;
+  padding: 0;
 }
 
-.list-section h2 {
-  margin-bottom: 10px;
-  color: #1e3a8a;
+li {
+  margin: 5px 0;
+}
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: red;
+  margin-left: 10px;
+  cursor: pointer;
 }
 
 footer {
-  background-color: #1e3a8a;
+  background: #222;
   color: white;
-  padding: 15px;
+  padding: 1rem;
   text-align: center;
-  margin-top: 50px;
 }
