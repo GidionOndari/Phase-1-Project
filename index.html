@@ -12,29 +12,32 @@
   </header>
 
   <main>
-    <form id="search-form">
-      <input type="text" id="search-input" placeholder="Search dog breed..." />
-      <button type="submit">Search</button>
-    </form>
+    <section id="search">
+      <form id="search-form">
+        <input type="text" id="search-input" placeholder="Search breed..." />
+        <button type="submit">Search</button>
+      </form>
+    </section>
 
-    <section id="breed-list" class="dog-list"></section>
+    <section id="breed-list" class="dog-container"></section>
 
-    <div class="lists">
+    <section class="side-panels">
       <div>
         <h2>Favorites</h2>
         <ul id="favorites-list"></ul>
       </div>
+
       <div>
         <h2>Adopted</h2>
         <ul id="adopted-list"></ul>
       </div>
-    </div>
+    </section>
   </main>
 
   <footer>
-    <p>© 2025 Gidion's Dog Adoption SPA</p>
+    <p>Dog Adoption SPA Project &copy; 2025</p>
   </footer>
 
-  <script src="index.js"></script>
+  <script src="src/index.js"></script>
 </body>
 </html>

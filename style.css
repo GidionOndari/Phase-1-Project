@@ -1,46 +1,50 @@
-body {
-  font-family: Arial, sans-serif;
+* {
   margin: 0;
-  background-color: #fdfdfd;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f0f0f0;
   color: #333;
 }
 
 header {
-  background-color: #4a90e2;
-  padding: 1em;
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
   text-align: center;
-  color: white;
 }
 
-main {
-  padding: 1em;
-}
-
-form {
+#search {
+  margin: 20px;
   text-align: center;
-  margin-bottom: 2em;
 }
 
-input, button {
-  padding: 0.5em;
-  margin: 0.5em;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+#search input {
+  padding: 0.5rem;
+  width: 200px;
 }
 
-.dog-list {
+#search button {
+  padding: 0.5rem 1rem;
+}
+
+.dog-container {
   display: flex;
   flex-wrap: wrap;
+  gap: 16px;
+  padding: 20px;
   justify-content: center;
-  gap: 1em;
 }
 
 .dog-card {
-  width: 200px;
-  background: white;
+  background-color: white;
   border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   text-align: center;
 }
 
@@ -48,29 +52,50 @@ input, button {
   width: 100%;
   height: 150px;
   object-fit: cover;
+  border-radius: 6px;
 }
 
 .dog-buttons {
-  display: flex;
-  justify-content: space-around;
-  padding: 0.5em;
+  margin-top: 10px;
 }
 
-button {
+.dog-buttons button {
+  margin: 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  background-color: #eee;
 }
 
-.lists {
+.fav-btn {
+  background-color: pink;
+}
+
+.adopt-btn {
+  background-color: lightgreen;
+}
+
+.remove-btn {
+  background-color: lightcoral;
+  color: white;
+  border: none;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.side-panels {
   display: flex;
   justify-content: space-around;
-  margin-top: 2em;
+  padding: 20px;
+}
+
+.side-panels ul {
+  list-style: none;
 }
 
 footer {
-  background-color: #4a90e2;
-  color: white;
+  background-color: #333;
+  color: #fff;
   text-align: center;
-  padding: 1em;
-  margin-top: 3em;
+  padding: 1rem;
 }

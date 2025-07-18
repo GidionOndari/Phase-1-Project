@@ -12,15 +12,17 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("https://dog.ceo/api/breeds/list/all")
       .then(res => res.json())
       .then(data => {
-        const breeds = Object.keys(data.message).slice(0, 12);
+        const breeds = Object.keys(data.message).slice(0, 12); // limit to 12 breeds
         breeds.forEach(breed => fetchBreed(breed));
-      });
+      })
+      .catch(err => console.error("Error fetching breeds:", err));
   }
 
   function fetchBreed(breed) {
     fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
       .then(res => res.json())
-      .then(data => renderDog(breed, data.message));
+      .then(data => renderDog(breed, data.message))
+      .catch(err => console.error(`Error fetching image for ${breed}:`, err));
   }
 
   function renderDog(breed, imageUrl) {
@@ -28,34 +30,46 @@ document.addEventListener("DOMContentLoaded", () => {
     card.className = "dog-card";
     card.innerHTML = `
       <img src="${imageUrl}" alt="${breed}" class="dog-img"/>
-      <h3>${breed}</h3>
+      <h3 class="dog-name">${breed}</h3>
       <div class="dog-buttons">
-        <button class="fav-btn">Favorite</button>
-        <button class="adopt-btn">Adopt</button>
+        <button class="fav-btn">❤️ Favorite</button>
+        <button class="adopt-btn">✅ Adopt</button>
       </div>
     `;
 
-    card.querySelector(".fav-btn").addEventListener("click", () => handleFavorite(breed));
-    card.querySelector(".adopt-btn").addEventListener("click", () => handleAdopt(breed));
+    const favBtn = card.querySelector(".fav-btn");
+    const adoptBtn = card.querySelector(".adopt-btn");
+
+    favBtn.addEventListener("click", () => handleFavorite(breed));
+    adoptBtn.addEventListener("click", () => handleAdopt(breed));
+
     breedList.appendChild(card);
   }
 
   function handleFavorite(breed) {
     if (!favorites.includes(breed)) {
       favorites.push(breed);
-    } else {
-      favorites = favorites.filter(b => b !== breed);
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      updateFavoritesUI();
     }
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-    updateFavoritesUI();
   }
 
   function handleAdopt(breed) {
     if (!adopted.includes(breed)) {
       adopted.push(breed);
-    } else {
-      adopted = adopted.filter(b => b !== breed);
+      localStorage.setItem("adopted", JSON.stringify(adopted));
+      updateAdoptedUI();
     }
+  }
+
+  function removeFromFavorites(breed) {
+    favorites = favorites.filter(b => b !== breed);
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    updateFavoritesUI();
+  }
+
+  function removeFromAdopted(breed) {
+    adopted = adopted.filter(b => b !== breed);
     localStorage.setItem("adopted", JSON.stringify(adopted));
     updateAdoptedUI();
   }
@@ -65,6 +79,13 @@ document.addEventListener("DOMContentLoaded", () => {
     favorites.forEach(breed => {
       const li = document.createElement("li");
       li.textContent = breed;
+
+      const btn = document.createElement("button");
+      btn.textContent = "Remove";
+      btn.className = "remove-btn";
+      btn.addEventListener("click", () => removeFromFavorites(breed));
+
+      li.appendChild(btn);
       favoritesList.appendChild(li);
     });
   }
@@ -74,31 +95,29 @@ document.addEventListener("DOMContentLoaded", () => {
     adopted.forEach(breed => {
       const li = document.createElement("li");
       li.textContent = breed;
+
+      const btn = document.createElement("button");
+      btn.textContent = "Remove";
+      btn.className = "remove-btn";
+      btn.addEventListener("click", () => removeFromAdopted(breed));
+
+      li.appendChild(btn);
       adoptedList.appendChild(li);
     });
   }
 
-  searchForm.addEventListener("submit", e => {
+  searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const query = searchInput.value.trim().toLowerCase();
-    breedList.innerHTML = "";
     if (query) {
+      breedList.innerHTML = "";
       fetchBreed(query);
-    } else {
-      fetchBreeds();
     }
   });
 
-  // Event listener: hover effect
-  const headerTitle = document.getElementById("header-title");
-  headerTitle.addEventListener("mouseover", () => {
-    headerTitle.style.color = "yellow";
-  });
-  headerTitle.addEventListener("mouseout", () => {
-    headerTitle.style.color = "white";
-  });
+  
 
-  // Initial render
+  // Init
   fetchBreeds();
   updateFavoritesUI();
   updateAdoptedUI();
