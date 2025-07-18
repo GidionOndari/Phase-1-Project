@@ -2,25 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Dog Breeds</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dog Adoption SPA</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <header>
-    <h1>🐶 Dog Breeds Explorer</h1>
-    <input type="text" id="searchInput" placeholder="Search by breed..." />
-    <button id="themeToggle">🌙 Dark Mode</button>
-  </header>
+  <h1>Bosco Dog Adoption Center</h1>
 
-  <main>
-    <section id="dogsContainer" class="cards-section"></section>
+  <!-- Search/filter -->
+  <input type="text" id="search" placeholder="Search by breed..." />
 
-    <aside>
-      <h2>Favorites 💖</h2>
-      <ul id="favoritesList"></ul>
-    </aside>
-  </main>
+  <!-- Dog list -->
+  <section id="dog-list"></section>
 
-  <script src="index.js"></script>
+  <h2>Your Adopted Dogs</h2>
+  <section id="favorites"></section>
+
+  <script src="./src/index.js"></script>
 </body>
 </html>
