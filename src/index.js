@@ -5,27 +5,39 @@ document.addEventListener("DOMContentLoaded", () => {
   const favoritesList = document.getElementById("favorites-list");
   const adoptedList = document.getElementById("adopted-list");
   const searchForm = document.getElementById("search-form");
+  const spinner = document.getElementById("spinner");
   const searchInput = document.getElementById("search-input");
 
   let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
   let adopted = JSON.parse(localStorage.getItem("adopted")) || [];
 
   function fetchBreeds() {
-    fetch("https://dog.ceo/api/breeds/list/all")
-      .then(res => res.json())
-      .then(data => {
-        const breeds = Object.keys(data.message).slice(0, 12); // limit to 12 breeds
-        breeds.forEach(breed => fetchBreed(breed));
-      })
-      .catch(err => console.error("Error fetching breeds:", err));
-  }
+  spinner.classList.remove("hidden");
+  fetch("https://dog.ceo/api/breeds/list/all")
+    .then(res => res.json())
+    .then(data => {
+      const breeds = Object.keys(data.message).slice(0, 12);
+      breeds.forEach(breed => fetchBreed(breed));
+    })
+    .catch(err => {
+      console.error("Error fetching breeds:", err);
+      spinner.classList.add("hidden");
+    });
+}
 
-  function fetchBreed(breed) {
-    fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
-      .then(res => res.json())
-      .then(data => renderDog(breed, data.message))
-      .catch(err => console.error(`Error fetching image for ${breed}:`, err));
-  }
+function fetchBreed(breed) {
+  fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
+    .then(res => res.json())
+    .then(data => {
+      renderDog(breed, data.message);
+      spinner.classList.add("hidden");
+    })
+    .catch(err => {
+      console.error(`Error fetching image for ${breed}:`, err);
+      spinner.classList.add("hidden");
+    });
+}
+
 
   function renderDog(breed, imageUrl) {
     const card = document.createElement("div");

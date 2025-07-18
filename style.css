@@ -1,103 +1,147 @@
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f7f7f7;
+  background: linear-gradient(to bottom right, #ffecd2, #fcb69f);
+  min-height: 100vh;
   color: #333;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
-  background-color: #1e3a8a;
-  color: white;
-  padding: 20px;
+  background-color: #ff6f61;
+  padding: 1rem;
   text-align: center;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#header-title {
   font-size: 2rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: color 0.3s ease;
 }
 
-main {
-  padding: 20px;
+form {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
 }
 
-#search-form {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-#search-input {
-  padding: 10px;
-  width: 250px;
-  border: 2px solid #1e3a8a;
-  border-radius: 5px;
-}
-
-button {
-  padding: 10px 15px;
-  margin-left: 10px;
-  background-color: #1e3a8a;
-  color: white;
+form input, form button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  margin: 0 0.25rem;
+  border-radius: 8px;
 }
 
-button:hover {
-  background-color: #2563eb;
+form input {
+  width: 200px;
+}
+
+form button {
+  background-color: #ff6f61;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+form button:hover {
+  background-color: #e74c3c;
+}
+
+#spinner {
+  text-align: center;
+  margin: 1rem;
+  font-size: 1.2rem;
+}
+
+.hidden {
+  display: none;
 }
 
 .dog-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 1.5rem;
+  padding: 1rem;
 }
 
 .dog-card {
-  background-color: white;
+  background-color: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   overflow: hidden;
-  width: 220px;
+  width: 250px;
   text-align: center;
-  padding-bottom: 15px;
+  transition: transform 0.2s ease;
+}
+
+.dog-card:hover {
+  transform: scale(1.05);
 }
 
 .dog-img {
   width: 100%;
-  height: 180px;
+  height: 200px;
   object-fit: cover;
 }
 
 .dog-name {
-  margin: 15px 0;
+  padding: 0.5rem;
   text-transform: capitalize;
-  font-size: 1.2rem;
+  font-weight: bold;
 }
 
-.dog-buttons button {
-  margin: 5px;
+.dog-buttons {
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem;
 }
 
-.list-section {
-  margin-top: 40px;
-  padding: 15px;
-  background: #f0f4ff;
-  border-radius: 10px;
+.fav-btn, .adopt-btn {
+  padding: 0.3rem 0.6rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
 }
 
-.list-section h2 {
-  margin-bottom: 10px;
-  color: #1e3a8a;
+.fav-btn {
+  background-color: #ffca28;
+}
+
+.adopt-btn {
+  background-color: #66bb6a;
+  color: white;
+}
+
+.lists-section {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem;
+  flex-wrap: wrap;
+}
+
+.list-box {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  min-width: 200px;
 }
 
 footer {
-  background-color: #1e3a8a;
-  color: white;
-  padding: 15px;
+  background-color: #ff6f61;
   text-align: center;
-  margin-top: 50px;
+  padding: 1rem;
+  color: white;
+  margin-top: auto;
 }

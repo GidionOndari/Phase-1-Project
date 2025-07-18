@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dog Adoption SPA</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="./styles.css"/>
 </head>
 <body>
   <header>
@@ -13,27 +13,32 @@
 
   <main>
     <form id="search-form">
-      <input type="text" id="search-input" placeholder="Search for a breed..." />
+      <input type="text" id="search-input" placeholder="Search dog breed..." />
       <button type="submit">Search</button>
     </form>
 
+    <div id="spinner" class="hidden">Loading dogs...</div>
+
     <section id="breed-list" class="dog-container"></section>
 
-    <section class="list-section">
-      <h2> Favorites</h2>
-      <ul id="favorites-list"></ul>
-    </section>
+    <aside class="lists-section">
+      <div class="list-box">
+        <h2>Favorites</h2>
+        <ul id="favorites-list"></ul>
+      </div>
 
-    <section class="list-section">
-      <h2> Adopted</h2>
-      <ul id="adopted-list"></ul>
-    </section>
+      <div class="list-box">
+        <h2>Adopted</h2>
+        <ul id="adopted-list"></ul>
+      </div>
+    </aside>
   </main>
 
   <footer>
-    <p>Made by Gidion Ondari | &copy; 2025 | MIT License</p>
+    <p>&copy; 2025 Dog Adoption SPA | Gidion Ondari</p>
   </footer>
 
-  <script src="src/index.js"></script>
+  <script type="module" src="./src/index.js"></script>
 </body>
 </html>
+
