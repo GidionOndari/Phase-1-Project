@@ -12,11 +12,11 @@ This project is a **Dog Adoption Single Page Application (SPA)** built using **H
 
 The app allows users to:
 - View random adoptable dogs with their images and breed names.
-- “Adopt” (favorite) dogs, which moves them into a separate **Favorites** section.
+- “Adopt” (favorite) dogs, which moves them into a separate Favorites section.
 - Remove dogs from their Favorites.
-- Filter/search dogs by breed or name in real-time.
+- Filter dogs by breed or name in real-time.
 
-All interactions are handled entirely on the **frontend** using JavaScript for DOM manipulation and event handling.
+All interactions are handled entirely on the frontend using JavaScript for DOM manipulation and event handling.
 
 ---
 
@@ -31,13 +31,6 @@ All interactions are handled entirely on the **frontend** using JavaScript for D
 
 ---
 
-##  Tech Stack
-
-- **Frontend:** HTML5, CSS3, JavaScript 
-- **API:** [Dog CEO Dog API](https://dog.ceo/dog-api/)
-- **Deployment:** GitHub Pages
-
----
 
 ##  How to Run Locally
 
@@ -45,7 +38,8 @@ All interactions are handled entirely on the **frontend** using JavaScript for D
 
    ```bash
    git clone git@github.com:GidionOndari/Phase-1-Project.git
-   
+ ## Live Site  
+(https://gidionondari.github.io/Phase-1-Project/)
 
 ## Author
 
