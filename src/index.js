@@ -1,74 +1,107 @@
+// index.js
 
 document.addEventListener("DOMContentLoaded", () => {
-  const API_URL = "https://api.thedogapi.com/v1/breeds";
-  const dogsContainer = document.getElementById("dogsContainer");
-  const searchInput = document.getElementById("searchInput");
-  const favoritesList = document.getElementById("favoritesList");
-  const themeToggle = document.getElementById("themeToggle");
+  const breedList = document.getElementById("breed-list");
+  const favoritesList = document.getElementById("favorites-list");
+  const adoptedList = document.getElementById("adopted-list");
+  const searchForm = document.getElementById("search-form");
+  const searchInput = document.getElementById("search-input");
 
-  let allDogs = [];
+  let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+  let adopted = JSON.parse(localStorage.getItem("adopted")) || [];
 
-  // Toggle light/dark theme
-  themeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    themeToggle.textContent = document.body.classList.contains("dark-mode")
-      ? "☀️ Light Mode"
-      : "🌙 Dark Mode";
-  });
+  function fetchBreeds() {
+    fetch("https://dog.ceo/api/breeds/list/all")
+      .then(res => res.json())
+      .then(data => {
+        const breeds = Object.keys(data.message).slice(0, 12); // limit to 12 breeds
+        breeds.forEach(breed => fetchBreed(breed));
+      })
+      .catch(err => console.error("Error fetching breeds:", err));
+  }
 
-  // Load dogs from API
-  fetch(API_URL)
-    .then((res) => res.json())
-    .then((dogs) => {
-      allDogs = dogs;
-      displayDogs(dogs);
-    })
-    .catch((err) => {
-      dogsContainer.innerHTML = `<p class="error">⚠️ Failed to load dogs. Check your internet and try again.</p>`;
-      console.error("Fetch error:", err);
-    });
+  function fetchBreed(breed) {
+    fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
+      .then(res => res.json())
+      .then(data => renderDog(breed, data.message))
+      .catch(err => console.error(`Error fetching image for ${breed}:`, err));
+  }
 
-  function displayDogs(dogs) {
-    dogsContainer.innerHTML = ""; // Clear previous
-    dogs.forEach((dog) => {
-      const card = document.createElement("div");
-      card.classList.add("dog-card");
+  function renderDog(breed, imageUrl) {
+    const card = document.createElement("div");
+    card.className = "dog-card";
+    card.innerHTML = `
+      <img src="${imageUrl}" alt="${breed}" class="dog-img"/>
+      <h3 class="dog-name">${breed}</h3>
+      <div class="dog-buttons">
+        <button class="fav-btn">Favorite</button>
+        <button class="adopt-btn">Adopt</button>
+      </div>
+    `;
 
-      card.innerHTML = `
-        <img src="${dog.image?.url || 'https://placedog.net/500'}" alt="${dog.name}" />
-        <h3>${dog.name}</h3>
-        <p>Group: ${dog.breed_group || "Unknown"}</p>
-        <button>Add to Favorites</button>
-      `;
+    const favBtn = card.querySelector(".fav-btn");
+    const adoptBtn = card.querySelector(".adopt-btn");
 
-      const button = card.querySelector("button");
-      button.addEventListener("click", () => addToFavorites(dog.name, button));
+    favBtn.addEventListener("click", () => handleFavorite(breed));
+    adoptBtn.addEventListener("click", () => handleAdopt(breed));
 
-      dogsContainer.appendChild(card);
+    breedList.appendChild(card);
+  }
+
+  function handleFavorite(breed) {
+    if (!favorites.includes(breed)) {
+      favorites.push(breed);
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      updateFavoritesUI();
+    }
+  }
+
+  function handleAdopt(breed) {
+    if (!adopted.includes(breed)) {
+      adopted.push(breed);
+      localStorage.setItem("adopted", JSON.stringify(adopted));
+      updateAdoptedUI();
+    }
+  }
+
+  function updateFavoritesUI() {
+    favoritesList.innerHTML = "";
+    favorites.forEach(breed => {
+      const li = document.createElement("li");
+      li.textContent = breed;
+      favoritesList.appendChild(li);
     });
   }
 
-  function addToFavorites(dogName, button) {
-    const li = document.createElement("li");
-    li.textContent = dogName;
-
-    const removeBtn = document.createElement("button");
-    removeBtn.textContent = "❌";
-    removeBtn.addEventListener("click", () => li.remove());
-
-    li.appendChild(removeBtn);
-    favoritesList.appendChild(li);
-
-    button.disabled = true;
-    button.textContent = "✅ Added";
+  function updateAdoptedUI() {
+    adoptedList.innerHTML = "";
+    adopted.forEach(breed => {
+      const li = document.createElement("li");
+      li.textContent = breed;
+      adoptedList.appendChild(li);
+    });
   }
 
-  // Live search filter
-  searchInput.addEventListener("input", (e) => {
-    const query = e.target.value.toLowerCase();
-    const filteredDogs = allDogs.filter((dog) =>
-      dog.name.toLowerCase().includes(query)
-    );
-    displayDogs(filteredDogs);
+  searchForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const query = searchInput.value.trim().toLowerCase();
+    if (query) {
+      breedList.innerHTML = "";
+      fetchBreed(query);
+    }
   });
+
+  // Hover effect for header title
+  const headerTitle = document.getElementById("header-title");
+  headerTitle.addEventListener("mouseover", () => {
+    headerTitle.style.color = "#ff4081";
+  });
+  headerTitle.addEventListener("mouseout", () => {
+    headerTitle.style.color = "#fff";
+  });
+
+  // Initial render
+  fetchBreeds();
+  updateFavoritesUI();
+  updateAdoptedUI();
 });
