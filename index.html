@@ -4,33 +4,36 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dog Adoption SPA</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header>
-    <h1> Adopt A Dog Today</h1>
-    <input type="text" id="search" placeholder="Search for a breed..." />
+    <h1 id="header-title">Bosco Dog Adoption Center</h1>
   </header>
 
   <main>
-    <section id="dog-list" class="dog-grid"></section>
+    <form id="search-form">
+      <input type="text" id="search-input" placeholder="Search for a breed..." />
+      <button type="submit">Search</button>
+    </form>
 
-    <section class="lists">
-      <div>
-        <h2>Your Favorites</h2>
-        <ul id="favorites-list"></ul>
-      </div>
-      <div>
-        <h2>Your Adopted Dogs</h2>
-        <ul id="adopted-list"></ul>
-      </div>
+    <section id="breed-list" class="dog-container"></section>
+
+    <section class="list-section">
+      <h2> Favorites</h2>
+      <ul id="favorites-list"></ul>
+    </section>
+
+    <section class="list-section">
+      <h2> Adopted</h2>
+      <ul id="adopted-list"></ul>
     </section>
   </main>
 
   <footer>
-    <p>Made by Gidion Ondari | Dog CEO API</p>
+    <p>Made by Gidion Ondari | &copy; 2025 | MIT License</p>
   </footer>
 
-  <script src="index.js"></script>
+  <script src="src/index.js"></script>
 </body>
 </html>
