@@ -1,83 +1,103 @@
-body {
-  font-family: 'Segoe UI', sans-serif;
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background-color: #fefefe;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f7f7f7;
   color: #333;
 }
 
 header {
-  background: #ffde59;
-  padding: 1em;
+  background-color: #1e3a8a;
+  color: white;
+  padding: 20px;
   text-align: center;
+  font-size: 2rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-input#searchInput {
-  padding: 0.5em;
-  width: 60%;
-  margin-top: 1em;
-  font-size: 1em;
+main {
+  padding: 20px;
+}
+
+#search-form {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+#search-input {
+  padding: 10px;
+  width: 250px;
+  border: 2px solid #1e3a8a;
+  border-radius: 5px;
 }
 
 button {
-  padding: 0.5em 1em;
-  margin: 0.5em;
-  background-color: #333;
+  padding: 10px 15px;
+  margin-left: 10px;
+  background-color: #1e3a8a;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #555;
+  background-color: #2563eb;
 }
 
-.cards-section {
+.dog-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 1em;
   justify-content: center;
-  padding: 2em;
+  gap: 20px;
 }
 
 .dog-card {
-  width: 250px;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  padding: 1em;
-  text-align: center;
   background-color: white;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-.dog-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-}
-
-aside {
-  padding: 2em;
-  background-color: #f9f9f9;
-}
-
-.dark-mode {
-  background-color: #121212;
-  color: #f5f5f5;
-}
-
-.dark-mode header {
-  background-color: #333;
-}
-
-.dark-mode .dog-card {
-  background-color: #1e1e1e;
-  border-color: #444;
-}
-
-.error {
-  color: red;
-  font-weight: bold;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  width: 220px;
   text-align: center;
+  padding-bottom: 15px;
+}
+
+.dog-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.dog-name {
+  margin: 15px 0;
+  text-transform: capitalize;
+  font-size: 1.2rem;
+}
+
+.dog-buttons button {
+  margin: 5px;
+}
+
+.list-section {
+  margin-top: 40px;
+  padding: 15px;
+  background: #f0f4ff;
+  border-radius: 10px;
+}
+
+.list-section h2 {
+  margin-bottom: 10px;
+  color: #1e3a8a;
+}
+
+footer {
+  background-color: #1e3a8a;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  margin-top: 50px;
 }
