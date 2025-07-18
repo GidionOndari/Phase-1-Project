@@ -7,17 +7,30 @@
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <h1>Bosco Dog Adoption Center</h1>
+  <header>
+    <h1> Adopt A Dog Today</h1>
+    <input type="text" id="search" placeholder="Search for a breed..." />
+  </header>
 
-  <!-- Search/filter -->
-  <input type="text" id="search" placeholder="Search by breed..." />
+  <main>
+    <section id="dog-list" class="dog-grid"></section>
 
-  <!-- Dog list -->
-  <section id="dog-list"></section>
+    <section class="lists">
+      <div>
+        <h2>Your Favorites</h2>
+        <ul id="favorites-list"></ul>
+      </div>
+      <div>
+        <h2>Your Adopted Dogs</h2>
+        <ul id="adopted-list"></ul>
+      </div>
+    </section>
+  </main>
 
-  <h2>Your Adopted Dogs</h2>
-  <section id="favorites"></section>
+  <footer>
+    <p>Made by Gidion Ondari | Dog CEO API</p>
+  </footer>
 
-  <script src="./src/index.js"></script>
+  <script src="index.js"></script>
 </body>
 </html>

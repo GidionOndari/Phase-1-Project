@@ -1,77 +1,74 @@
+
 document.addEventListener("DOMContentLoaded", () => {
-  const dogList = document.getElementById("dog-list");
-  const favorites = document.getElementById("favorites");
-  const searchInput = document.getElementById("search");
+  const API_URL = "https://api.thedogapi.com/v1/breeds";
+  const dogsContainer = document.getElementById("dogsContainer");
+  const searchInput = document.getElementById("searchInput");
+  const favoritesList = document.getElementById("favoritesList");
+  const themeToggle = document.getElementById("themeToggle");
 
-  let dogs = [];
+  let allDogs = [];
 
-  // Fetch random dog images
-  fetch("https://dog.ceo/api/breeds/image/random/10")
-    .then(res => res.json())
-    .then(data => {
-      dogs = data.message.map(url => {
-        // Extract breed from URL
-        const parts = url.split("/");
-        const breed = parts[parts.indexOf("breeds") + 1];
-        return { url, breed };
-      });
-      renderDogs(dogs);
+  // Toggle light/dark theme
+  themeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    themeToggle.textContent = document.body.classList.contains("dark-mode")
+      ? "☀️ Light Mode"
+      : "🌙 Dark Mode";
+  });
+
+  // Load dogs from API
+  fetch(API_URL)
+    .then((res) => res.json())
+    .then((dogs) => {
+      allDogs = dogs;
+      displayDogs(dogs);
+    })
+    .catch((err) => {
+      dogsContainer.innerHTML = `<p class="error">⚠️ Failed to load dogs. Check your internet and try again.</p>`;
+      console.error("Fetch error:", err);
     });
 
-  // Render dogs
-  function renderDogs(dogArray) {
-    dogList.innerHTML = "";
-    dogArray.forEach(dog => {
+  function displayDogs(dogs) {
+    dogsContainer.innerHTML = ""; // Clear previous
+    dogs.forEach((dog) => {
       const card = document.createElement("div");
-      card.className = "dog-card";
+      card.classList.add("dog-card");
 
-      const img = document.createElement("img");
-      img.src = dog.url;
+      card.innerHTML = `
+        <img src="${dog.image?.url || 'https://placedog.net/500'}" alt="${dog.name}" />
+        <h3>${dog.name}</h3>
+        <p>Group: ${dog.breed_group || "Unknown"}</p>
+        <button>Add to Favorites</button>
+      `;
 
-      const breedName = document.createElement("p");
-      breedName.textContent = `Breed: ${dog.breed}`;
+      const button = card.querySelector("button");
+      button.addEventListener("click", () => addToFavorites(dog.name, button));
 
-      const adoptBtn = document.createElement("button");
-      adoptBtn.textContent = "Adopt ❤️";
-      adoptBtn.addEventListener("click", () => adoptDog(dog));
-
-      card.appendChild(img);
-      card.appendChild(breedName);
-      card.appendChild(adoptBtn);
-
-      dogList.appendChild(card);
+      dogsContainer.appendChild(card);
     });
   }
 
-  // Adopt dog
-  function adoptDog(dog) {
-    const favCard = document.createElement("div");
-    favCard.className = "dog-card";
-
-    const img = document.createElement("img");
-    img.src = dog.url;
-
-    const breedName = document.createElement("p");
-    breedName.textContent = `Breed: ${dog.breed}`;
+  function addToFavorites(dogName, button) {
+    const li = document.createElement("li");
+    li.textContent = dogName;
 
     const removeBtn = document.createElement("button");
-    removeBtn.textContent = "Remove 🗑️";
-    removeBtn.addEventListener("click", () => favCard.remove());
+    removeBtn.textContent = "❌";
+    removeBtn.addEventListener("click", () => li.remove());
 
-    favCard.appendChild(img);
-    favCard.appendChild(breedName);
-    favCard.appendChild(removeBtn);
+    li.appendChild(removeBtn);
+    favoritesList.appendChild(li);
 
-    favorites.appendChild(favCard);
+    button.disabled = true;
+    button.textContent = "✅ Added";
   }
 
-  // Search/filter
+  // Live search filter
   searchInput.addEventListener("input", (e) => {
-    const term = e.target.value.toLowerCase();
-    const filtered = dogs.filter(dog =>
-      dog.breed.toLowerCase().includes(term)
+    const query = e.target.value.toLowerCase();
+    const filteredDogs = allDogs.filter((dog) =>
+      dog.name.toLowerCase().includes(query)
     );
-    renderDogs(filtered);
+    displayDogs(filteredDogs);
   });
 });
-
