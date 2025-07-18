@@ -2,35 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title> Adopt A Pup</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Dog Breeds</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header>
-    <h1>🐶 Adopt A Pup</h1>
-    <p>Find your forever furry friend 💕</p>
-    <button id="themeToggle">🌙 Toggle Dark Mode</button>
+    <h1>🐶 Dog Breeds Explorer</h1>
+    <input type="text" id="searchInput" placeholder="Search by breed..." />
+    <button id="themeToggle">🌙 Dark Mode</button>
   </header>
 
   <main>
-    <section class="search-section">
-      <input type="text" id="searchInput" placeholder="🔍 Search by breed..." />
-    </section>
+    <section id="dogsContainer" class="cards-section"></section>
 
-    <div id="spinner" class="spinner hidden"></div>
-
-    <section class="dogs-container" id="dogsContainer"></section>
-
-    <section class="favorites-section">
-      <h2> Your Favorites</h2>
+    <aside>
+      <h2>Favorites 💖</h2>
       <ul id="favoritesList"></ul>
-    </section>
+    </aside>
   </main>
-
-  <footer>
-    <p>Made by Gidion Ondari</p>
-  </footer>
 
   <script src="script.js"></script>
 </body>
